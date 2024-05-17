@@ -1,0 +1,43 @@
+services:
+  traefik:
+    image: "traefik:v3.0"
+    command:
+      - "--log.level=INFO"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+    networks:
+      - poker-network
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  mongo:
+    image: "mongo:8.0-rc"
+    volumes:
+      - "mongo-data:/data/db"
+    networks:
+      - poker-network
+
+  card:
+    build: core/card
+    deploy:
+      replicas: 2
+    networks:
+      - poker-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.card.rule=Host(`card.localhost`)"
+      - "traefik.http.routers.card.entrypoints=web"
+    depends_on:
+      - mongo
+      - traefik
+
+networks:
+  poker-network:
+
+volumes:
+  mongo-data:

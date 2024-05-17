@@ -29,8 +29,14 @@ public class CardController extends BaseController {
         return ok(uuid);
     }
 
+    @GetMapping("/{uuid}")
+    public ResponseEntity<?> getPlay(@PathVariable("uuid") String uuid) throws CardException {
+        Play play = cardService.getPlay(uuid);
+        return ok(play);
+    }
+
     @GetMapping("/{uuid}/player")
-    public ResponseEntity<?> get(@PathVariable("uuid") String uuid) throws CardException {
+    public ResponseEntity<?> getPlayer(@PathVariable("uuid") String uuid) throws CardException {
         List<Card> cards = cardService.getCards(uuid, CardTypeEnum.PLAYER);
         return ok(cards);
     }
@@ -54,15 +60,9 @@ public class CardController extends BaseController {
     }
 
     @GetMapping("/{uuid}/type/{cardType}")
-    public ResponseEntity<?> get2(@PathVariable("uuid") String uuid, @PathVariable("cardType") CardTypeEnum cardTypeEnum) throws CardException {
+    public ResponseEntity<?> getByType(@PathVariable("uuid") String uuid, @PathVariable("cardType") CardTypeEnum cardTypeEnum) throws CardException {
         List<Card> cards = cardService.getCards(uuid, cardTypeEnum);
         return ok(cards);
-    }
-
-        @GetMapping("/{uuid}")
-    public ResponseEntity<?> getPlay(@PathVariable("uuid") String uuid) throws CardException {
-        Play play = cardService.getPlay(uuid);
-        return ok(play);
     }
 
 }

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 public class CardService {
 
-    //private HashMap<String, Play> CARD = new HashMap<>();
+    //private Map<String, Play> CARD = new HashMap<>();
 
     public List<Card> getAllCards() {
         return CardBuilder.buildList();

@@ -1,4 +1,4 @@
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 LABEL maintainer="bennu <contacto@bennu.cl>"
 
@@ -8,7 +8,7 @@ COPY ./pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml package
 
 
-FROM eclipse-temurin:17
+FROM eclipse-temurin:21
 
 COPY --from=build /usr/src/app/target/poker-card.jar /usr/src/app/poker-card.jar
 
